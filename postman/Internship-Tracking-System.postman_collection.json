@@ -1,0 +1,173 @@
+{
+  "info": {
+    "_postman_id": "8df04f12-b5c9-4fc8-8f0f-6e769d930f44",
+    "name": "Internship Tracking System",
+    "description": "Version 1 MVP API. Set IDs after creating or listing resources. Login stores access and refresh tokens automatically.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [{"key": "token", "value": "{{access_token}}", "type": "string"}]
+  },
+  "variable": [
+    {"key": "base_url", "value": "http://127.0.0.1:8000"},
+    {"key": "email", "value": "admin@demo.local"},
+    {"key": "password", "value": "DemoAdmin123!", "type": "secret"},
+    {"key": "access_token", "value": "", "type": "secret"},
+    {"key": "refresh_token", "value": "", "type": "secret"},
+    {"key": "student_id", "value": ""},
+    {"key": "supervisor_id", "value": ""},
+    {"key": "cohort_id", "value": ""},
+    {"key": "track_id", "value": ""},
+    {"key": "placement_id", "value": ""},
+    {"key": "report_id", "value": ""}
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register Student",
+          "request": {
+            "auth": {"type": "noauth"},
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"email\": \"new.student@example.com\",\n  \"password\": \"StrongPass123!\",\n  \"first_name\": \"New\",\n  \"last_name\": \"Student\",\n  \"registration_number\": \"REG-NEW-001\",\n  \"programme\": \"BSc Computer Science\",\n  \"department\": \"Computing\",\n  \"phone_number\": \"+254700000000\"\n}"},
+            "url": "{{base_url}}/api/v1/auth/register/student/"
+          }
+        },
+        {
+          "name": "Login",
+          "event": [{"listen": "test", "script": {"exec": ["const data = pm.response.json();", "pm.collectionVariables.set('access_token', data.access);", "pm.collectionVariables.set('refresh_token', data.refresh);"]}}],
+          "request": {
+            "auth": {"type": "noauth"},
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"},
+            "url": "{{base_url}}/api/v1/auth/token/"
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "event": [{"listen": "test", "script": {"exec": ["const data = pm.response.json();", "pm.collectionVariables.set('access_token', data.access);"]}}],
+          "request": {
+            "auth": {"type": "noauth"},
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\"refresh\": \"{{refresh_token}}\"}"},
+            "url": "{{base_url}}/api/v1/auth/token/refresh/"
+          }
+        },
+        {"name": "Current User", "request": {"method": "GET", "url": "{{base_url}}/api/v1/auth/me/"}},
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"old_password\": \"{{password}}\",\n  \"new_password\": \"AnotherStrongPass123!\",\n  \"new_password_confirm\": \"AnotherStrongPass123!\"\n}"},
+            "url": "{{base_url}}/api/v1/auth/change-password/"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Students",
+      "item": [
+        {"name": "List", "request": {"method": "GET", "url": "{{base_url}}/api/v1/students/"}},
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"email\": \"admin.created.student@example.com\",\n  \"password\": \"StrongPass123!\",\n  \"first_name\": \"Admin\",\n  \"last_name\": \"Created\",\n  \"registration_number\": \"REG-ADMIN-001\",\n  \"programme\": \"Data Science\",\n  \"department\": \"Computing\"\n}"},
+            "url": "{{base_url}}/api/v1/students/"
+          }
+        },
+        {"name": "Retrieve", "request": {"method": "GET", "url": "{{base_url}}/api/v1/students/{{student_id}}/"}},
+        {"name": "Update", "request": {"method": "PATCH", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"phone_number\": \"+254722000000\"}"}, "url": "{{base_url}}/api/v1/students/{{student_id}}/"}},
+        {"name": "Delete", "request": {"method": "DELETE", "url": "{{base_url}}/api/v1/students/{{student_id}}/"}},
+        {"name": "My Profile", "request": {"method": "GET", "url": "{{base_url}}/api/v1/students/me/"}},
+        {"name": "Update My Profile", "request": {"method": "PATCH", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"phone_number\": \"+254733000000\"}"}, "url": "{{base_url}}/api/v1/students/me/"}}
+      ]
+    },
+    {
+      "name": "Supervisors",
+      "item": [
+        {"name": "List", "request": {"method": "GET", "url": "{{base_url}}/api/v1/supervisors/"}},
+        {
+          "name": "Create",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "body": {"mode": "raw", "raw": "{\n  \"email\": \"supervisor@example.com\",\n  \"password\": \"StrongPass123!\",\n  \"first_name\": \"Sam\",\n  \"last_name\": \"Supervisor\",\n  \"staff_number\": \"STAFF-NEW-001\",\n  \"department\": \"Computing\"\n}"},
+            "url": "{{base_url}}/api/v1/supervisors/"
+          }
+        },
+        {"name": "Retrieve", "request": {"method": "GET", "url": "{{base_url}}/api/v1/supervisors/{{supervisor_id}}/"}},
+        {"name": "Update", "request": {"method": "PATCH", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"department\": \"Engineering\"}"}, "url": "{{base_url}}/api/v1/supervisors/{{supervisor_id}}/"}},
+        {"name": "Delete", "request": {"method": "DELETE", "url": "{{base_url}}/api/v1/supervisors/{{supervisor_id}}/"}},
+        {"name": "My Profile", "request": {"method": "GET", "url": "{{base_url}}/api/v1/supervisors/me/"}},
+        {"name": "My Assigned Students", "request": {"method": "GET", "url": "{{base_url}}/api/v1/supervisors/me/students/"}}
+      ]
+    },
+    {
+      "name": "Cohorts",
+      "item": [
+        {"name": "List", "request": {"method": "GET", "url": "{{base_url}}/api/v1/cohorts/"}},
+        {"name": "Create", "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\n  \"name\": \"2026 Cohort\",\n  \"description\": \"Internship cohort\",\n  \"start_date\": \"2026-09-01\",\n  \"end_date\": \"2026-12-31\",\n  \"is_active\": true\n}"}, "url": "{{base_url}}/api/v1/cohorts/"}},
+        {"name": "Retrieve", "request": {"method": "GET", "url": "{{base_url}}/api/v1/cohorts/{{cohort_id}}/"}},
+        {"name": "Update", "request": {"method": "PATCH", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"is_active\": false}"}, "url": "{{base_url}}/api/v1/cohorts/{{cohort_id}}/"}},
+        {"name": "Delete", "request": {"method": "DELETE", "url": "{{base_url}}/api/v1/cohorts/{{cohort_id}}/"}}
+      ]
+    },
+    {
+      "name": "Tracks",
+      "item": [
+        {"name": "List", "request": {"method": "GET", "url": "{{base_url}}/api/v1/tracks/"}},
+        {"name": "Create", "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"name\": \"Software Development\", \"description\": \"Software engineering track\", \"is_active\": true}"}, "url": "{{base_url}}/api/v1/tracks/"}},
+        {"name": "Retrieve", "request": {"method": "GET", "url": "{{base_url}}/api/v1/tracks/{{track_id}}/"}},
+        {"name": "Update", "request": {"method": "PATCH", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"description\": \"Updated description\"}"}, "url": "{{base_url}}/api/v1/tracks/{{track_id}}/"}},
+        {"name": "Delete", "request": {"method": "DELETE", "url": "{{base_url}}/api/v1/tracks/{{track_id}}/"}}
+      ]
+    },
+    {
+      "name": "Placements",
+      "item": [
+        {"name": "List", "request": {"method": "GET", "url": "{{base_url}}/api/v1/placements/"}},
+        {"name": "Create", "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\n  \"student\": \"{{student_id}}\",\n  \"supervisor\": \"{{supervisor_id}}\",\n  \"track\": \"{{track_id}}\",\n  \"cohort\": \"{{cohort_id}}\",\n  \"start_date\": \"2026-09-01\",\n  \"end_date\": \"2026-12-31\",\n  \"status\": \"PLACED\"\n}"}, "url": "{{base_url}}/api/v1/placements/"}},
+        {"name": "Retrieve", "request": {"method": "GET", "url": "{{base_url}}/api/v1/placements/{{placement_id}}/"}},
+        {"name": "Update", "request": {"method": "PATCH", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"status\": \"ACTIVE\"}"}, "url": "{{base_url}}/api/v1/placements/{{placement_id}}/"}},
+        {"name": "Delete", "request": {"method": "DELETE", "url": "{{base_url}}/api/v1/placements/{{placement_id}}/"}},
+        {"name": "My Placement", "request": {"method": "GET", "url": "{{base_url}}/api/v1/placements/me/"}}
+      ]
+    },
+    {
+      "name": "Weekly Reports",
+      "item": [
+        {"name": "List", "request": {"method": "GET", "url": "{{base_url}}/api/v1/reports/"}},
+        {"name": "Create Draft", "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\n  \"placement\": \"{{placement_id}}\",\n  \"week_number\": 1,\n  \"week_start_date\": \"2026-09-01\",\n  \"week_end_date\": \"2026-09-07\",\n  \"activities_completed\": \"Implemented assigned features.\",\n  \"skills_learned\": \"Django REST Framework\",\n  \"challenges_faced\": \"Deployment configuration\"\n}"}, "url": "{{base_url}}/api/v1/reports/"}},
+        {"name": "Retrieve", "request": {"method": "GET", "url": "{{base_url}}/api/v1/reports/{{report_id}}/"}},
+        {"name": "Update Draft", "request": {"method": "PATCH", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"activities_completed\": \"Expanded activity details.\"}"}, "url": "{{base_url}}/api/v1/reports/{{report_id}}/"}},
+        {"name": "Delete Draft", "request": {"method": "DELETE", "url": "{{base_url}}/api/v1/reports/{{report_id}}/"}},
+        {"name": "Submit", "request": {"method": "POST", "url": "{{base_url}}/api/v1/reports/{{report_id}}/submit/"}},
+        {"name": "Review", "request": {"method": "POST", "header": [{"key": "Content-Type", "value": "application/json"}], "body": {"mode": "raw", "raw": "{\"supervisor_feedback\": \"Good progress; add outcome details next week.\"}"}, "url": "{{base_url}}/api/v1/reports/{{report_id}}/review/"}}
+      ]
+    },
+    {
+      "name": "Dashboards",
+      "item": [
+        {"name": "Student", "request": {"method": "GET", "url": "{{base_url}}/api/v1/dashboard/student/"}},
+        {"name": "Supervisor", "request": {"method": "GET", "url": "{{base_url}}/api/v1/dashboard/supervisor/"}},
+        {"name": "Administrator", "request": {"method": "GET", "url": "{{base_url}}/api/v1/dashboard/admin/"}}
+      ]
+    },
+    {
+      "name": "System",
+      "item": [
+        {"name": "Health", "request": {"auth": {"type": "noauth"}, "method": "GET", "url": "{{base_url}}/api/v1/health/"}},
+        {"name": "OpenAPI Schema", "request": {"auth": {"type": "noauth"}, "method": "GET", "url": "{{base_url}}/api/schema/"}},
+        {"name": "Swagger UI", "request": {"auth": {"type": "noauth"}, "method": "GET", "url": "{{base_url}}/api/docs/"}}
+      ]
+    }
+  ]
+}
