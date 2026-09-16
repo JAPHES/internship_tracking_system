@@ -56,7 +56,7 @@ The API is one deployable Django service with modular bounded-context apps:
 | `placements` | Direct student/supervisor/track/cohort assignment and lifecycle |
 | `reports` | Weekly drafts, submission, review, feedback, resubmission |
 | `dashboards` | Role-scoped aggregates and overdue calculations |
-| `common` | UUID timestamps, pagination, errors, validation, health check |
+| `common` | UUID timestamps, pagination, errors, validation, health check, frontend templates |
 
 Settings are split into `base`, `development`, `test`, and `production`.
 Development defaults to Django's built-in SQLite database when `DATABASE_URL`
@@ -175,19 +175,29 @@ four tracks, active placements, and mixed report states. Development credentials
 Never use these credentials in a public or production deployment. Demo seeding
 is intentionally not part of the Render build.
 
-## Run and use the API
+## Run and use the system
 
 ```bash
 python manage.py runserver
 ```
 
+- Frontend home: `http://127.0.0.1:8000/`
+- Sign in: `http://127.0.0.1:8000/login/`
+- Student registration: `http://127.0.0.1:8000/register/`
+- Role dashboard: `http://127.0.0.1:8000/dashboard/`
+- System guide: `http://127.0.0.1:8000/system-guide/`
 - Swagger UI: `http://127.0.0.1:8000/api/docs/`
 - OpenAPI schema: `http://127.0.0.1:8000/api/schema/`
 - Health check: `http://127.0.0.1:8000/api/v1/health/`
 - Django Admin: `http://127.0.0.1:8000/admin/`
 
-Obtain tokens by posting `email` and `password` to `/api/v1/auth/token/`, then
-send `Authorization: Bearer <access-token>`. Import
+The frontend signs in through the JWT API and keeps tokens in browser session
+storage, so closing the browser session clears them. It automatically selects
+the student, supervisor, or administrator dashboard based on the authenticated
+role. Backend permissions remain authoritative for every request.
+
+For direct API use, obtain tokens by posting `email` and `password` to
+`/api/v1/auth/token/`, then send `Authorization: Bearer <access-token>`. Import
 `postman/Internship-Tracking-System.postman_collection.json` into Postman and
 set its `base_url`/resource ID variables.
 
