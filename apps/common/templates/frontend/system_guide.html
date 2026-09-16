@@ -1,0 +1,75 @@
+{% extends "frontend/base.html" %}
+
+{% block title %}System guide | Internship Tracking System{% endblock %}
+{% block page_id %}guide{% endblock %}
+
+{% block content %}
+<section class="guide-hero">
+    <div class="shell guide-hero-grid">
+        <div><span class="eyebrow light">System guide</span><h1>Understand the platform<br>from end to end.</h1><p>A practical map of the architecture, roles, workflow, and API surface included in this MVP.</p></div>
+        <nav class="guide-jump" aria-label="On this page"><strong>Jump to</strong><a href="#architecture">Architecture</a><a href="#roles">Roles &amp; permissions</a><a href="#lifecycle">Placement lifecycle</a><a href="#modules">Django apps</a><a href="#routes">Main routes</a></nav>
+    </div>
+</section>
+
+<section class="section guide-content">
+    <div class="shell">
+        <article class="guide-section" id="architecture">
+            <div class="guide-index">01</div>
+            <div class="guide-body"><span class="eyebrow">Architecture</span><h2>A modular Django REST application</h2><p>The browser interface is a lightweight client of the same versioned REST API available to Postman and other integrations. Django applies authentication, role permissions, object-level scoping, validation, and persistence.</p>
+                <div class="architecture-map">
+                    <div><span>Browser</span><strong>Django templates</strong><small>Navigation and role dashboard</small></div><b>&rarr;</b><div><span>Application</span><strong>REST API + JWT</strong><small>Validation and permissions</small></div><b>&rarr;</b><div><span>Persistence</span><strong>PostgreSQL</strong><small>SQLite for local development</small></div>
+                </div>
+                <div class="technology-row"><span>Python</span><span>Django</span><span>Django REST Framework</span><span>Simple JWT</span><span>drf-spectacular</span><span>Render</span></div>
+            </div>
+        </article>
+
+        <article class="guide-section" id="roles">
+            <div class="guide-index">02</div>
+            <div class="guide-body"><span class="eyebrow">Roles and permissions</span><h2>Access follows responsibility</h2><p>Permissions are enforced server-side. Changing a menu or URL in the browser cannot grant access to another user’s records.</p>
+                <div class="permission-table table-wrap"><table><thead><tr><th>Capability</th><th>Student</th><th>Supervisor</th><th>Administrator</th></tr></thead><tbody>
+                    <tr><td>Own profile</td><td><span class="yes">View / edit</span></td><td><span class="yes">View / edit</span></td><td><span class="yes">Manage all</span></td></tr>
+                    <tr><td>Placements</td><td>Own only</td><td>Assigned only</td><td><span class="yes">Manage all</span></td></tr>
+                    <tr><td>Weekly reports</td><td>Create and edit own</td><td>Review assigned</td><td>View all</td></tr>
+                    <tr><td>Cohorts and tracks</td><td>View through placement</td><td>View through placement</td><td><span class="yes">Manage all</span></td></tr>
+                    <tr><td>Dashboard</td><td>Personal progress</td><td>Review workload</td><td>Cohort analytics</td></tr>
+                </tbody></table></div>
+            </div>
+        </article>
+
+        <article class="guide-section" id="lifecycle">
+            <div class="guide-index">03</div>
+            <div class="guide-body"><span class="eyebrow">Placement lifecycle</span><h2>Three placement stages, three report states</h2>
+                <div class="state-columns">
+                    <div><h3>Placement</h3><div class="state-flow"><span>Placed</span><b>&rarr;</b><span>Active</span><b>&rarr;</b><span>Completed</span></div><p>An administrator assigns the student, supervisor, track, cohort, and dates. A student can have only one non-completed placement.</p></div>
+                    <div><h3>Weekly report</h3><div class="state-flow report-flow"><span>Draft</span><b>&rarr;</b><span>Submitted</span><b>&rarr;</b><span>Reviewed</span></div><p>A reviewed report may be corrected and resubmitted. It returns to Submitted while retaining the latest supervisor feedback.</p></div>
+                </div>
+                <aside class="definition"><strong>When is a report overdue?</strong><p>Once an expected internship week has ended, the report is overdue if no submitted or reviewed report exists for that placement and week. Drafts do not count as submitted.</p></aside>
+            </div>
+        </article>
+
+        <article class="guide-section" id="modules">
+            <div class="guide-index">04</div>
+            <div class="guide-body"><span class="eyebrow">Django apps</span><h2>Nine modules with distinct responsibilities</h2>
+                <div class="app-grid">
+                    <div><code>accounts</code><p>Users, roles, email login, JWT, registration, password changes.</p></div><div><code>students</code><p>Student identity, registration, programme, department, contact details.</p></div><div><code>supervisors</code><p>Supervisor identity, staff details, contacts, assigned students.</p></div><div><code>cohorts</code><p>Internship periods, date boundaries, and active status.</p></div><div><code>tracks</code><p>Internship specialisations such as Data Science or Software Development.</p></div><div><code>placements</code><p>Direct assignment joining student, supervisor, track, and cohort.</p></div><div><code>reports</code><p>Weekly work, skills, challenges, submission, review, and feedback.</p></div><div><code>dashboards</code><p>Role-specific statistics, progress, pending reviews, and risk signals.</p></div><div><code>common</code><p>Shared models, validation, errors, pagination, health, and frontend.</p></div>
+                </div>
+            </div>
+        </article>
+
+        <article class="guide-section" id="routes">
+            <div class="guide-index">05</div>
+            <div class="guide-body"><span class="eyebrow">Main routes</span><h2>Where to find everything</h2>
+                <div class="route-grid">
+                    <a href="{% url 'frontend-dashboard' %}"><code>/dashboard/</code><strong>Role dashboard</strong><small>Human-readable live summaries</small></a>
+                    <a href="{% url 'swagger-ui' %}"><code>/api/docs/</code><strong>Swagger UI</strong><small>Interactive endpoint documentation</small></a>
+                    <a href="{% url 'schema' %}"><code>/api/schema/</code><strong>OpenAPI schema</strong><small>Machine-readable API contract</small></a>
+                    <a href="{% url 'admin:index' %}"><code>/admin/</code><strong>Django Admin</strong><small>Operational data management</small></a>
+                    <a href="{% url 'health' %}"><code>/api/v1/health/</code><strong>Health check</strong><small>Deployment readiness probe</small></a>
+                    <a href="{% url 'frontend-register' %}"><code>/register/</code><strong>Student registration</strong><small>Create student account and profile</small></a>
+                </div>
+                <div class="guide-actions"><a class="button button-primary" href="{% url 'frontend-login' %}">Sign in to the system</a><a class="button button-secondary" href="{% url 'swagger-ui' %}">Explore every endpoint</a></div>
+            </div>
+        </article>
+    </div>
+</section>
+{% endblock %}
