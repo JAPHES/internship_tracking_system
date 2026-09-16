@@ -1,0 +1,85 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Manage internship placements, weekly reports, supervisor reviews, and cohort progress.">
+    <title>{% block title %}Internship Tracking System{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'common/css/frontend.css' %}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body data-page="{% block page_id %}default{% endblock %}">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+        <div class="shell nav-shell">
+            <a class="brand" href="{% url 'home' %}" aria-label="Internship Tracking System home">
+                <span class="brand-mark" aria-hidden="true">IT</span>
+                <span class="brand-copy">
+                    <strong>Internship Tracking</strong>
+                    <small>Student success, clearly managed</small>
+                </span>
+            </a>
+
+            <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
+                <span></span><span></span><span></span>
+                <span class="sr-only">Toggle navigation</span>
+            </button>
+
+            <nav class="primary-nav" id="primary-navigation" aria-label="Primary navigation">
+                <a href="{% url 'home' %}" data-nav="home">Home</a>
+                <a href="{% url 'system-guide' %}" data-nav="guide">System guide</a>
+                <a href="{% url 'swagger-ui' %}" target="_blank" rel="noopener">API docs</a>
+                <a href="{% url 'frontend-dashboard' %}" data-nav="dashboard">Dashboard</a>
+            </nav>
+
+            <div class="nav-actions" data-auth-navigation>
+                <a class="button button-ghost button-small" href="{% url 'frontend-login' %}" data-guest-only>Sign in</a>
+                <a class="button button-primary button-small" href="{% url 'frontend-register' %}" data-guest-only>Register</a>
+                <span class="user-chip" data-user-chip hidden>
+                    <span class="avatar" data-user-initials>U</span>
+                    <span><strong data-user-name>User</strong><small data-user-role>Role</small></span>
+                </span>
+                <button class="button button-ghost button-small" type="button" data-logout hidden>Sign out</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="toast-region" aria-live="polite" aria-atomic="true" data-toast-region></div>
+
+    <main id="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="shell footer-grid">
+            <div>
+                <a class="brand brand-footer" href="{% url 'home' %}">
+                    <span class="brand-mark" aria-hidden="true">IT</span>
+                    <span class="brand-copy"><strong>Internship Tracking</strong><small>Production-ready Django MVP</small></span>
+                </a>
+                <p>A focused platform for managing placements, progress reports, supervision, and cohort outcomes.</p>
+            </div>
+            <div>
+                <h2>Navigate</h2>
+                <a href="{% url 'frontend-dashboard' %}">Dashboard</a>
+                <a href="{% url 'system-guide' %}">System guide</a>
+                <a href="{% url 'swagger-ui' %}">Swagger API</a>
+            </div>
+            <div>
+                <h2>Administration</h2>
+                <a href="{% url 'admin:index' %}">Django Admin</a>
+                <a href="{% url 'schema' %}">OpenAPI schema</a>
+                <a href="{% url 'health' %}">Service health</a>
+            </div>
+        </div>
+        <div class="shell footer-bottom">
+            <span>&copy; {% now "Y" %} Internship Tracking System</span>
+            <span>Django REST Framework + PostgreSQL</span>
+        </div>
+    </footer>
+
+    <script src="{% static 'common/js/api-client.js' %}" defer></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
