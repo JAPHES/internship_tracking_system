@@ -67,18 +67,16 @@ TEMPLATES = [
 WSGI_APPLICATION = "internship_tracking.wsgi.application"
 ASGI_APPLICATION = "internship_tracking.asgi.application"
 
-USE_SQLITE = env.bool("USE_SQLITE", default=False)
+database_url = env("DATABASE_URL", default="")
+USE_SQLITE = env.bool("USE_SQLITE", default=not bool(database_url))
 if USE_SQLITE:
     DATABASES = {
         "default": {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "db.sqlite3"}
     }
 else:
-    database_url = env("DATABASE_URL", default=None)
     if not database_url:
-        raise ImproperlyConfigured(
-            "DATABASE_URL is required. Set USE_SQLITE=True only for an explicit local fallback."
-        )
-    DATABASES = {"default": env.db_url("DATABASE_URL")}
+        raise ImproperlyConfigured("DATABASE_URL is required when USE_SQLITE=False.")
+    DATABASES = {"default": env.db_url_config(database_url)}
     DATABASES["default"]["CONN_MAX_AGE"] = 600
 DATABASES["default"]["CONN_HEALTH_CHECKS"] = True
 
