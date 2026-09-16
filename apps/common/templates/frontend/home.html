@@ -1,0 +1,139 @@
+{% extends "frontend/base.html" %}
+
+{% block title %}Internship Tracking System | Cohort management made clear{% endblock %}
+{% block page_id %}home{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="shell hero-grid">
+        <div class="hero-copy reveal">
+            <span class="eyebrow"><span class="status-dot"></span> Internship lifecycle management</span>
+            <h1>Every placement.<br><em>Every week.</em> On track.</h1>
+            <p>One secure workspace for students, supervisors, and administrators to coordinate placements, weekly progress, feedback, and cohort performance.</p>
+            <div class="hero-actions">
+                <a class="button button-primary" href="{% url 'frontend-login' %}">Open your dashboard <span aria-hidden="true">&rarr;</span></a>
+                <a class="button button-secondary" href="{% url 'system-guide' %}">See how it works</a>
+            </div>
+            <div class="trust-row" aria-label="Platform capabilities">
+                <span><b>3</b> purpose-built roles</span>
+                <span><b>JWT</b> secured access</span>
+                <span><b>Live</b> progress insight</span>
+            </div>
+        </div>
+
+        <div class="hero-visual reveal reveal-delay" aria-label="Example cohort dashboard">
+            <div class="visual-orbit orbit-one"></div>
+            <div class="visual-orbit orbit-two"></div>
+            <div class="dashboard-preview">
+                <div class="preview-topbar">
+                    <span><i></i><i></i><i></i></span>
+                    <small>Cohort overview</small>
+                    <span class="preview-live">Live</span>
+                </div>
+                <div class="preview-heading">
+                    <div><small>Good morning</small><strong>Programme Admin</strong></div>
+                    <span class="preview-avatar">PA</span>
+                </div>
+                <div class="preview-stats">
+                    <article><span class="mini-icon green">S</span><small>Students</small><strong>48</strong><em>+6 this cohort</em></article>
+                    <article><span class="mini-icon orange">R</span><small>Pending reviews</small><strong>12</strong><em>Needs attention</em></article>
+                    <article><span class="mini-icon blue">P</span><small>Active placements</small><strong>43</strong><em>89.6% active</em></article>
+                </div>
+                <div class="preview-panel">
+                    <div class="preview-panel-title"><strong>Weekly submission progress</strong><small>Current cohort</small></div>
+                    <div class="chart-bars" aria-hidden="true">
+                        <span style="height:44%"></span><span style="height:63%"></span><span style="height:54%"></span><span style="height:78%"></span><span style="height:68%"></span><span style="height:88%"></span><span class="active" style="height:94%"></span>
+                    </div>
+                    <div class="chart-labels"><span>W1</span><span>W2</span><span>W3</span><span>W4</span><span>W5</span><span>W6</span><span>W7</span></div>
+                </div>
+            </div>
+            <div class="floating-card floating-success"><span>&check;</span><div><strong>Report reviewed</strong><small>Feedback delivered</small></div></div>
+            <div class="floating-card floating-progress"><div class="progress-ring"><span>86%</span></div><div><strong>Cohort progress</strong><small>On schedule</small></div></div>
+        </div>
+    </div>
+</section>
+
+<section class="section role-section">
+    <div class="shell">
+        <div class="section-heading centered">
+            <span class="eyebrow">Built around real responsibilities</span>
+            <h2>One system, three focused experiences</h2>
+            <p>Each user sees only the information and actions relevant to their role.</p>
+        </div>
+        <div class="role-grid">
+            <article class="role-card student-card">
+                <div class="role-icon" aria-hidden="true">01</div>
+                <span class="role-label">Student workspace</span>
+                <h3>Turn each week into visible progress</h3>
+                <p>See placement details, write weekly reports, track review status, and act on supervisor feedback.</p>
+                <ul class="check-list">
+                    <li>Personal profile and placement</li>
+                    <li>Draft and submit reports</li>
+                    <li>Feedback and overdue weeks</li>
+                </ul>
+            </article>
+            <article class="role-card supervisor-card">
+                <div class="role-icon" aria-hidden="true">02</div>
+                <span class="role-label">Supervisor workspace</span>
+                <h3>Guide assigned students with context</h3>
+                <p>Focus on your own students, review their work, and keep a clear record of constructive feedback.</p>
+                <ul class="check-list">
+                    <li>Assigned-student visibility</li>
+                    <li>Pending review queue</li>
+                    <li>Review history and feedback</li>
+                </ul>
+            </article>
+            <article class="role-card admin-card">
+                <div class="role-icon" aria-hidden="true">03</div>
+                <span class="role-label">Administrator workspace</span>
+                <h3>See the whole cohort at a glance</h3>
+                <p>Coordinate people, cohorts, tracks, and placements while spotting overdue reports early.</p>
+                <ul class="check-list">
+                    <li>Direct placement management</li>
+                    <li>Cohort-wide statistics</li>
+                    <li>At-risk student indicators</li>
+                </ul>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="section workflow-section">
+    <div class="shell workflow-grid">
+        <div class="section-heading">
+            <span class="eyebrow light">A simple, accountable flow</span>
+            <h2>From placement to completion</h2>
+            <p>Administration stays direct. There is no marketplace or application pipeline—just the workflow a managed cohort needs.</p>
+            <a class="text-link light" href="{% url 'system-guide' %}">Explore the complete system map <span>&rarr;</span></a>
+        </div>
+        <ol class="workflow-list">
+            <li><span>1</span><div><strong>Organise</strong><p>Create the cohort, internship tracks, student records, and supervisor records.</p></div></li>
+            <li><span>2</span><div><strong>Place</strong><p>Assign each student directly to a supervisor, track, cohort, and date range.</p></div></li>
+            <li><span>3</span><div><strong>Report &amp; review</strong><p>Students submit weekly progress; supervisors provide feedback and mark reviews complete.</p></div></li>
+            <li><span>4</span><div><strong>Monitor &amp; complete</strong><p>Administrators identify overdue weeks and move placements through their lifecycle.</p></div></li>
+        </ol>
+    </div>
+</section>
+
+<section class="section platform-section">
+    <div class="shell">
+        <div class="section-heading split-heading">
+            <div><span class="eyebrow">Explore the platform</span><h2>Everything has a clear home</h2></div>
+            <p>The frontend helps people navigate; the documented REST API remains the secure source of truth.</p>
+        </div>
+        <div class="module-grid">
+            <a class="module-card" href="{% url 'frontend-dashboard' %}"><span>01</span><div><h3>Role dashboard</h3><p>Live summaries for each authenticated role.</p></div><b>&rarr;</b></a>
+            <a class="module-card" href="{% url 'admin:index' %}"><span>02</span><div><h3>Django Admin</h3><p>Full operational management for staff.</p></div><b>&rarr;</b></a>
+            <a class="module-card" href="{% url 'swagger-ui' %}"><span>03</span><div><h3>Interactive API</h3><p>Inspect and test every REST endpoint.</p></div><b>&rarr;</b></a>
+            <a class="module-card" href="{% url 'system-guide' %}"><span>04</span><div><h3>System guide</h3><p>Roles, modules, workflow, and route map.</p></div><b>&rarr;</b></a>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div class="shell cta-card">
+        <div><span class="eyebrow light">Ready to begin?</span><h2>Open your internship workspace.</h2><p>Sign in with an existing account or create a student profile.</p></div>
+        <div class="cta-actions"><a class="button button-light" href="{% url 'frontend-login' %}">Sign in</a><a class="button button-outline-light" href="{% url 'frontend-register' %}">Student registration</a></div>
+    </div>
+</section>
+{% endblock %}
