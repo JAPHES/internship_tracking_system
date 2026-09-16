@@ -59,9 +59,10 @@ The API is one deployable Django service with modular bounded-context apps:
 | `common` | UUID timestamps, pagination, errors, validation, health check |
 
 Settings are split into `base`, `development`, `test`, and `production`.
-PostgreSQL is the default. SQLite is available only when `USE_SQLITE=True` is
-explicitly set. Transactional service functions lock reports during submit and
-review transitions, while database constraints protect dates and uniqueness.
+Development defaults to Django's built-in SQLite database when `DATABASE_URL`
+is absent. Production requires PostgreSQL. Transactional service functions lock
+reports during submit and review transitions, while database constraints protect
+dates and uniqueness.
 
 ### Overdue rule
 
@@ -86,6 +87,10 @@ python -m pip install --upgrade pip
 pip install -r requirements-dev.txt
 Copy-Item .env.example .env
 ```
+
+If PowerShell blocks `Activate.ps1`, `manage.py` automatically uses the local
+`.venv` when you run `python manage.py <command>` from the project directory.
+You can also invoke it explicitly with `.\.venv\Scripts\python.exe manage.py`.
 
 ### macOS/Linux
 
@@ -118,8 +123,8 @@ DATABASE_URL=postgresql://internship_tracking_user:choose-a-local-password@local
 USE_SQLITE=False
 ```
 
-For a deliberate local-only SQLite fallback, remove/comment `DATABASE_URL` and
-set `USE_SQLITE=True`. Production settings must use PostgreSQL.
+For the default local SQLite setup, set `USE_SQLITE=True`; any configured
+`DATABASE_URL` is then ignored. Production settings always require PostgreSQL.
 
 ## Environment variables
 
@@ -132,7 +137,7 @@ set `USE_SQLITE=True`. Production settings must use PostgreSQL.
 | `CSRF_TRUSTED_ORIGINS` | Comma-separated HTTPS origins | Your deployed frontend/API origin |
 | `CORS_ALLOWED_ORIGINS` | Allowed browser client origins | Your frontend origin |
 | `DATABASE_URL` | PostgreSQL connection URL | Supplied by Render in production |
-| `USE_SQLITE` | Explicit local/test fallback | `False` normally |
+| `USE_SQLITE` | Local/test SQLite switch | `True` during initial local development |
 | `ACCESS_TOKEN_LIFETIME_MINUTES` | JWT access lifetime | `15` |
 | `REFRESH_TOKEN_LIFETIME_DAYS` | JWT refresh lifetime | `7` |
 | `LOG_LEVEL` | Root log level | `INFO` |
@@ -201,8 +206,8 @@ ruff check .
 ruff format --check .
 ```
 
-To run the first two development commands without a local PostgreSQL server,
-explicitly set `USE_SQLITE=True` in the shell or `.env`.
+The supplied development environment uses SQLite, so these commands do not
+require a local PostgreSQL server.
 
 ## Render deployment
 
