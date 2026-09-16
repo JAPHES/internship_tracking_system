@@ -1,0 +1,49 @@
+{% extends "frontend/base.html" %}
+{% load static %}
+
+{% block title %}Student registration | Internship Tracking System{% endblock %}
+{% block page_id %}register{% endblock %}
+
+{% block content %}
+<section class="registration-section">
+    <div class="shell narrow-shell">
+        <div class="registration-heading">
+            <a class="back-link dark" href="{% url 'home' %}">&larr; Back to overview</a>
+            <span class="eyebrow">Student self-registration</span>
+            <h1>Create your student workspace</h1>
+            <p>This creates both your secure account and student profile. Your administrator will assign your internship placement separately.</p>
+        </div>
+        <div class="registration-card">
+            <div class="form-alert" data-form-alert hidden></div>
+            <form id="registration-form" novalidate>
+                <fieldset>
+                    <legend><span>1</span><div>Account details<small>How you will identify and sign in</small></div></legend>
+                    <div class="form-grid two-columns">
+                        <div class="field-group"><label for="first_name">First name</label><input id="first_name" name="first_name" autocomplete="given-name" required><small class="field-error" data-error-for="first_name"></small></div>
+                        <div class="field-group"><label for="last_name">Last name</label><input id="last_name" name="last_name" autocomplete="family-name" required><small class="field-error" data-error-for="last_name"></small></div>
+                        <div class="field-group full-column"><label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" placeholder="student@example.com" required><small class="field-error" data-error-for="email"></small></div>
+                        <div class="field-group"><label for="password">Password</label><div class="password-field"><input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required><button type="button" data-toggle-password="password">Show</button></div><small class="field-help">Use at least 8 characters and avoid common passwords.</small><small class="field-error" data-error-for="password"></small></div>
+                        <div class="field-group"><label for="password_confirm">Confirm password</label><div class="password-field"><input id="password_confirm" name="password_confirm" type="password" autocomplete="new-password" minlength="8" required><button type="button" data-toggle-password="password_confirm">Show</button></div><small class="field-error" data-error-for="password_confirm"></small></div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend><span>2</span><div>Academic profile<small>Details used by your programme team</small></div></legend>
+                    <div class="form-grid two-columns">
+                        <div class="field-group"><label for="registration_number">Registration number</label><input id="registration_number" name="registration_number" placeholder="e.g. CIT/2026/001" required><small class="field-error" data-error-for="registration_number"></small></div>
+                        <div class="field-group"><label for="programme">Programme</label><input id="programme" name="programme" placeholder="e.g. BSc Computer Science" required><small class="field-error" data-error-for="programme"></small></div>
+                        <div class="field-group"><label for="department">Department</label><input id="department" name="department" placeholder="e.g. Computing" required><small class="field-error" data-error-for="department"></small></div>
+                        <div class="field-group"><label for="phone_number">Phone number <span>Optional</span></label><input id="phone_number" name="phone_number" type="tel" autocomplete="tel" placeholder="e.g. +254 700 000 000"><small class="field-error" data-error-for="phone_number"></small></div>
+                    </div>
+                </fieldset>
+                <div class="registration-submit">
+                    <p>By continuing, you confirm that the supplied student details are accurate.</p>
+                    <button class="button button-primary" type="submit" data-submit-button>Create student account <span>&rarr;</span></button>
+                </div>
+            </form>
+        </div>
+        <p class="center-note">Already registered? <a href="{% url 'frontend-login' %}">Sign in to your account</a></p>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}<script src="{% static 'common/js/auth-pages.js' %}" defer></script>{% endblock %}
