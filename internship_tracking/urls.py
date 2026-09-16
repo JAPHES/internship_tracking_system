@@ -1,10 +1,30 @@
 from django.contrib import admin
 from django.urls import include, path
-from django.views.generic import RedirectView
+from django.views.generic import TemplateView
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 urlpatterns = [
-    path("", RedirectView.as_view(pattern_name="swagger-ui", permanent=False), name="home"),
+    path("", TemplateView.as_view(template_name="frontend/home.html"), name="home"),
+    path(
+        "login/",
+        TemplateView.as_view(template_name="frontend/login.html"),
+        name="frontend-login",
+    ),
+    path(
+        "register/",
+        TemplateView.as_view(template_name="frontend/register.html"),
+        name="frontend-register",
+    ),
+    path(
+        "dashboard/",
+        TemplateView.as_view(template_name="frontend/dashboard.html"),
+        name="frontend-dashboard",
+    ),
+    path(
+        "system-guide/",
+        TemplateView.as_view(template_name="frontend/system_guide.html"),
+        name="system-guide",
+    ),
     path("admin/", admin.site.urls),
     path("api/v1/auth/", include("apps.accounts.urls")),
     path("api/v1/students/", include("apps.students.urls")),
